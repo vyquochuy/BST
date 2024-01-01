@@ -325,11 +325,34 @@ void rightView(NODE *root){
     }
 }
 
+void PreOrderTravelsal(NODE* root1, NODE* root2, vector<int>& c){
+    if (root1 == nullptr)
+        return;
+        
+    NODE *k = Search(root2, root1->key);
+    if (k != nullptr)
+        c.push_back(k->key);
+
+    PreOrderTravelsal(root1->pLeft, root2, c);
+    PreOrderTravelsal(root1->pRight, root2, c);
+}
+vector<int> findCommons(NODE *root1, NODE *root2)
+{
+    //Your code here
+    vector<int> c;
+    PreOrderTravelsal(root1, root2, c);
+    sort(c.begin(), c.end());
+    return c;
+}
+
 int main(){
     int a[] = {10, 20, 40, 50, 15, 5, 2, 1, 7, 45, 30};
+    int b[] = {19, 30, 70, 22, 2};
     int n = sizeof(a)/sizeof(a[0]);
-    NODE* tree = createTree(a, n);
+    int m = sizeof(b)/sizeof(b[0]);
 
+    NODE* tree = createTree(a, n);
+    NODE* tree2 = createTree(b, m);
     NLR(tree);  cout << endl;
     LNR(tree);  cout << endl;
     LRN(tree);  cout << endl;
@@ -341,4 +364,8 @@ int main(){
     cout << "\nto tien gan nhat cua 2 NODE mang gia tri 15 va 7 la " << LCA(tree, 15, 7)->key;   
     cout << "\nso NODE tren duong di ngan nhat tu root toi 1 la la " << minDepth(tree);
     cout << "\ncay khi nhin tu ben phai \n"; rightView(tree);
+    vector<int> Commons = findCommons(tree, tree2);
+
+
+    return 0;
 }
