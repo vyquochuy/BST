@@ -231,7 +231,7 @@ int countGrater(NODE* root, int x){
     
 }
 
-bool isBSTUtil(NODE* root, int minValue, int maxValue) {
+bool isBST(NODE* root, int minValue, int maxValue) {
     if (root == nullptr)
         return true;
 
@@ -241,18 +241,15 @@ bool isBSTUtil(NODE* root, int minValue, int maxValue) {
 
     // Kiểm tra cây con bên trái với giới hạn mới
     // Tất cả các giá trị trong cây con bên trái phải nhỏ hơn giá trị của NODE hiện tại
-    bool leftValid = isBSTUtil(root->pLeft, minValue, root->key - 1);
+    bool leftValid = isBST(root->pLeft, minValue, root->key - 1);
 
     // Kiểm tra cây con bên phải với giới hạn mới
     // Tất cả các giá trị trong cây con bên phải phải lớn hơn giá trị của NODE hiện tại
-    bool rightValid = isBSTUtil(root->pRight, root->key + 1, maxValue);
+    bool rightValid = isBST(root->pRight, root->key + 1, maxValue);
 
     return leftValid && rightValid;
 }
 
-bool isBST(NODE* root) {
-    return isBSTUtil(root, INT_MIN, INT_MAX);
-}
 
 // tim to tien chung thap nhat cua 2 NODE co gia tri n1 n2
 NODE* LCA(NODE *root, int n1, int n2){
@@ -362,6 +359,7 @@ int main(){
     LNR(tree);  cout << endl;
     LRN(tree);  cout << endl;
     LevelOrder(tree);    
+    
     //RemoveTree(tree);
     cout << "chieu cao cua NODE co gia tri 2 la " << heightNODE(tree, 2);
     cout << "\nlevel cua NODE co gia tri 2 la " << Level(tree, Search(tree, 2));
