@@ -1,6 +1,8 @@
 #include <iostream>
 #include <queue>
 #include <stack>
+#include <vector>
+#include <algorithm>
 using namespace std;
 
 struct NODE{
@@ -61,14 +63,19 @@ void LevelOrder(NODE* root){
     q.push(root);
 
     while(!q.empty()){
-        NODE* temp = q.front();
-        q.pop();
-        cout << temp->key << " ";
+        int n = q.size();
+        for (int i = 0; i < n; i++){
+            NODE* temp = q.front();
+            q.pop();
 
-        if(temp->pLeft != nullptr)
-            q.push(temp->pLeft);
-        if(temp->pRight != nullptr)
-            q.push(temp->pRight);
+            cout << temp->key << " ";
+
+            if(temp->pLeft != nullptr)
+                q.push(temp->pLeft);
+            if(temp->pRight != nullptr)
+                q.push(temp->pRight);
+        }
+        cout << endl;
     }
 }
 
@@ -108,11 +115,11 @@ NODE* Search(NODE* root, int x){
         return Search(root->pRight, x);
 }
 
-NODE* FindMinRight(NODE* NODE){
-    while(NODE->pLeft != nullptr){
-        NODE = NODE->pLeft;
+NODE* FindMinRight(NODE* node){
+    while(node->pLeft != nullptr){
+        node = node->pLeft;
     }
-    return NODE;
+    return node;
 }
 
 void Remove(NODE* &root, int x){
@@ -255,13 +262,13 @@ NODE* LCA(NODE *root, int n1, int n2){
     if (!root || root == q || root == p)
         return root;
     
-    NODE *leftLCA = LCA(root->pLeft, n1, n2);
+    NODE  *leftLCA = LCA(root->pLeft, n1, n2);
     NODE *rightLCA = LCA(root->pRight, n1, n2);
     
     if (leftLCA && rightLCA)
         return root;
     
-    return leftLCA ? leftLCA: rightLCA;
+    return leftLCA ? leftLCA : rightLCA;
 }
 
 // tim so NODE tren duong di ngan nhat den la
@@ -279,7 +286,7 @@ int minDepth(NODE *root) {
             NODE* p = q.front();
             q.pop();
             
-            if(p->pLeft == nullptr && p->pRight == nullptr)
+            if (p->pLeft == nullptr && p->pRight == nullptr)
                 return mindepth;
                 
             if (p->pLeft != nullptr)
@@ -301,7 +308,6 @@ void rightView(NODE *root){
         return ;
         
     queue<NODE*> q;
-    vector<int> right_view;
     q.push(root);
     while(!q.empty()){
         
@@ -310,10 +316,8 @@ void rightView(NODE *root){
             NODE* node = q.front();
             q.pop();
             
-            if (i + 1 == n){
-                right_view.push_back(node->key);
+            if (i + 1 == n)
                 cout << node->key << " - ";
-            }
             
             if (node->pLeft != nullptr)
                 q.push(node->pLeft);
@@ -336,6 +340,7 @@ void PreOrderTravelsal(NODE* root1, NODE* root2, vector<int>& c){
     PreOrderTravelsal(root1->pLeft, root2, c);
     PreOrderTravelsal(root1->pRight, root2, c);
 }
+
 vector<int> findCommons(NODE *root1, NODE *root2)
 {
     //Your code here
@@ -356,7 +361,7 @@ int main(){
     NLR(tree);  cout << endl;
     LNR(tree);  cout << endl;
     LRN(tree);  cout << endl;
-    
+    LevelOrder(tree);    
     //RemoveTree(tree);
     cout << "chieu cao cua NODE co gia tri 2 la " << heightNODE(tree, 2);
     cout << "\nlevel cua NODE co gia tri 2 la " << Level(tree, Search(tree, 2));
